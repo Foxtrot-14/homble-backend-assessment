@@ -23,6 +23,12 @@ class Product(models.Model):
         unique=True,
         help_text=_("Few sentences that showcase the appeal of the product"),
     )
+    ingredients = models.CharField(
+        _("Ingredients"),
+        max_length=500,
+        help_text=_("List of ingredients (up to 500 characters)"),
+        default="empty",
+    )
     is_refrigerated = models.BooleanField(
         help_text=_("Whether the product needs to be refrigerated"),
         default=False,
@@ -42,7 +48,7 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
     )
     created_at = models.DateTimeField(auto_now_add=True)
-
+    edited_at = models.DateTimeField(auto_now=True)
     def save(self, *args, **kwargs):
         self.name = self.name.strip().title()
         super().save(*args, **kwargs)
