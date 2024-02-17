@@ -22,12 +22,12 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Sku)
 class SkuAdmin(admin.ModelAdmin):
-    list_display = ("product","size", "selling_price")
+    list_display = ("product","size", "selling_price","platform_commission","cost_price")
     ordering = ("-id",)
     search_fields = ("product",)
     list_filter = ("size", "selling_price")
     fields = (
-        ("product","size", "selling_price"),
+        ("product","size", "selling_price","platform_commission","cost_price"),
     )
     autocomplete_fields = ("product",)
     readonly_fields = ("id",)
