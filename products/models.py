@@ -71,10 +71,25 @@ class Sku(models.Model):
         _("size in grams"),
         help_text=_("Size visible to the customer (gm.)"),
     )
-    price = models.PositiveSmallIntegerField(
+    selling_price = models.PositiveSmallIntegerField(
         _("selling price (Rs.)"),
         help_text=_("Price payable by customer (Rs.)"),
     )
+    platform_commission = models.PositiveSmallIntegerField(
+        _("platform commission"),
+        help_text=_("Platform Commission"),
+        blank=True,
+    )
+    cost_price = models.PositiveSmallIntegerField(
+        _("cost price"),
+        help_text=_("Cost Price"),
+        blank=True,
+    )
+    
+    def save(self, *args, **kwargs):
+        self.selling_price = self.cost_price+self.platform_commission
+        super.save(*args,**kwargs)
+        
     def __str__(self):
         return f"{self.product.name}"
     
@@ -84,4 +99,4 @@ class Sku(models.Model):
         ordering = []
         verbose_name = "Sku"
         verbose_name_plural = "Skus"
-        unique_together = ['product', 'price']
+        unique_together = ['product', 'selling_price']
