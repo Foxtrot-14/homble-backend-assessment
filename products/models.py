@@ -13,10 +13,6 @@ class Product(models.Model):
         unique=True,
         help_text=_("This will be displayed to user as-is"),
     )
-    price = models.PositiveSmallIntegerField(
-        _("selling price (Rs.)"),
-        help_text=_("Price payable by customer (Rs.)"),
-    )
     description = models.TextField(
         _("descriptive write-up"),
         unique=True,
@@ -53,7 +49,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.name} (Rs. {self.price})"
+        return f"{self.name}"
 
     class Meta:
         # Just to be explicit.
@@ -61,3 +57,31 @@ class Product(models.Model):
         ordering = []
         verbose_name = "Product"
         verbose_name_plural = "Products"
+
+class Sku(models.Model):
+    id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(
+        "Product",
+        related_name="sku",
+        blank=False,
+        null=False,
+        on_delete=models.PROTECT,
+    )
+    size = models.PositiveSmallIntegerField(
+        _("size in grams"),
+        help_text=_("Size visible to the customer (gm.)"),
+    )
+    price = models.PositiveSmallIntegerField(
+        _("selling price (Rs.)"),
+        help_text=_("Price payable by customer (Rs.)"),
+    )
+    def __str__(self):
+        return f"{self.product.name}"
+    
+    class Meta:
+        # Just to be explicit.
+        db_table = "sku"
+        ordering = []
+        verbose_name = "Sku"
+        verbose_name_plural = "Skus"
+        unique_together = ['product', 'price']

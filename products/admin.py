@@ -1,16 +1,16 @@
 from django.contrib import admin
 
-from products.models import Product
+from products.models import Product,Sku
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "price", "managed_by")
+    list_display = ("name", "managed_by")
     ordering = ("-id",)
     search_fields = ("name",)
     list_filter = ("is_refrigerated", "category")
     fields = (
-        ("name", "price"),
+        ("name"),
         ("category", "is_refrigerated"),
         "description",
         "ingredients",
@@ -20,7 +20,26 @@ class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ("category", "managed_by")
     readonly_fields = ("id", "created_at","edited_at")
 
+@admin.register(Sku)
+class SkuAdmin(admin.ModelAdmin):
+    list_display = ("product","size", "price")
+    ordering = ("-id",)
+    search_fields = ("product",)
+    list_filter = ("size", "price")
+    fields = (
+        ("product","size", "price"),
+    )
+    autocomplete_fields = ("product",)
+    readonly_fields = ("id",)
 
+class SkuInline(admin.StackedInline):
+    model = Sku
+    extra = 0
+    ordering = ("-id",)
+    readonly_fields = ("id",)
+    fields = (readonly_fields,)
+    show_change_link = True
+    
 class ProductInline(admin.StackedInline):
     """
     For display in CategoryAdmin
@@ -29,6 +48,6 @@ class ProductInline(admin.StackedInline):
     model = Product
     extra = 0
     ordering = ("-id",)
-    readonly_fields = ("name", "price", "is_refrigerated")
+    readonly_fields = ("name","is_refrigerated")
     fields = (readonly_fields,)
     show_change_link = True
