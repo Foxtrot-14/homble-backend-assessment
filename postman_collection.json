@@ -74,6 +74,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Category View(for staff only)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1a66627570137de385c36dfe5cc23ea6ae1accc2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/categories",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
