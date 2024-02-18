@@ -1,12 +1,28 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+
+STATUS_TYPE = (
+    (1,"Pending for Approval (default)"),
+    (2,"Approved"),
+    (3,"Discontinued"),
+)
+
+def validate_size(value):
+    if value > 999:
+        raise ValidationError('Size cannot exceed 999.')
+
+class SkuQuerySet(models.QuerySet):
+    def create(self, *args, **kwargs):
+        kwargs['status'] = 1  # Set status to 1 regardless of the value provided
+        return super().create(*args, **kwargs)
 
 class Product(models.Model):
     """
     Very basic structure. To be further built up.
     """
-
+    id = models.AutoField(primary_key=True)
     name = models.CharField(
         _("display name"),
         max_length=150,
@@ -44,10 +60,7 @@ class Product(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
-    def save(self, *args, **kwargs):
-        self.name = self.name.strip().title()
-        super().save(*args, **kwargs)
-
+    
     def __str__(self):
         return f"{self.name}"
 
@@ -59,18 +72,27 @@ class Product(models.Model):
         verbose_name_plural = "Products"
 
 class Sku(models.Model):
+    MEASUREMENT_UNITS = [
+        ('gm', 'Grams'),
+        ('kg', 'Kilograms'),
+        ('mL', 'Milliliters'),
+        ('L', 'Liters'),
+        ('pc', 'Piece'),
+    ]
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(
         "Product",
         related_name="sku",
-        blank=False,
         null=False,
         on_delete=models.PROTECT,
     )
+    measurement_unit = models.CharField(max_length=2, choices=MEASUREMENT_UNITS,default='gm')
     size = models.PositiveSmallIntegerField(
         _("size in grams"),
         help_text=_("Size visible to the customer (gm.)"),
+        validators=[validate_size]
     )
+    status = models.IntegerField(choices=STATUS_TYPE, default=1)
     selling_price = models.PositiveSmallIntegerField(
         _("selling price (Rs.)"),
         help_text=_("Price payable by customer (Rs.)"),
@@ -85,10 +107,10 @@ class Sku(models.Model):
         help_text=_("Cost Price"),
         blank=True,
     )
-    
+    objects = SkuQuerySet.as_manager()    
     def save(self, *args, **kwargs):
         self.selling_price = self.cost_price+self.platform_commission
-        super.save(*args,**kwargs)
+        super().save(*args,**kwargs)
         
     def __str__(self):
         return f"{self.product.name}"

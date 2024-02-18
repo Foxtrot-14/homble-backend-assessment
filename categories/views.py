@@ -11,6 +11,7 @@ from rest_framework.permissions import BasePermission
 class IsStaff(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_staff
+    
 @api_view(["GET"])
 @permission_classes([IsStaff])
 def category_list(request):

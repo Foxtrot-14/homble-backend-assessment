@@ -102,6 +102,105 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Create Sku(staff only)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1a66627570137de385c36dfe5cc23ea6ae1accc2",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\":3,\n    \"measurement_unit\":\"gm\",\n    \"size\":\"500\",\n    \"status\":2,\n    \"selling_price\":150,\n    \"platform_commission\":2,\n    \"cost_price\":100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/sku",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						"sku"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product with Skus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/4",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supervisor",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1a66627570137de385c36dfe5cc23ea6ae1accc2",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":6,\n    \"status\":2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/sku-edit",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						"sku-edit"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {

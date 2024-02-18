@@ -27,7 +27,7 @@ class SkuAdmin(admin.ModelAdmin):
     search_fields = ("product",)
     list_filter = ("size", "selling_price")
     fields = (
-        ("product","size", "selling_price","platform_commission","cost_price"),
+        ("id","product","size","measurement_unit","status", "selling_price","platform_commission","cost_price"),
     )
     autocomplete_fields = ("product",)
     readonly_fields = ("id",)

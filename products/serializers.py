@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from products.models import Product
+from products.models import Product,Sku
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -10,4 +10,9 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["name", "selling_price","description","ingredients"]
+        fields = ["name","description","ingredients"]
+
+class SkuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sku
+        fields = ['product','measurement_unit','size','status','selling_price','platform_commission','cost_price']
