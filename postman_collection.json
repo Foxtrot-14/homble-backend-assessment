@@ -177,7 +177,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\":6,\n    \"status\":2\n}",
+					"raw": "{\n    \"status\":2\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -185,7 +185,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/products/sku-edit",
+					"raw": "http://127.0.0.1:8000/products/sku-edit/6",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -196,7 +196,54 @@
 					"port": "8000",
 					"path": [
 						"products",
-						"sku-edit"
+						"sku-edit",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Category and Approved Skus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/category-sku",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						"category-sku"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Skus with Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/sku-category",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						"sku-category"
 					]
 				}
 			},
